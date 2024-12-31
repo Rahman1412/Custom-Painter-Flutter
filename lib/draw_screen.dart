@@ -6,7 +6,17 @@ class DrawScreen extends StatefulWidget {
 }
 
 class _DrawScreenState extends State<DrawScreen> {
-  List<Offset?> _points = []; // Stores the points for the drawing
+  List<Offset?> _points = [];
+  late Color color;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      color = Colors.red;
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +32,6 @@ class _DrawScreenState extends State<DrawScreen> {
                 onPanUpdate: (details) {
                   setState(() {
                     _points.add(details.localPosition);
-                    print(_points);
                   });
                 },
                 onPanEnd: (details) {
@@ -32,12 +41,12 @@ class _DrawScreenState extends State<DrawScreen> {
                 },
                 child: CustomPaint(
                   size: Size.infinite,
-                  painter: DrawingPainter(_points),
+                  painter: DrawingPainter(_points,color),
                 ),
               ),
           ),
           Padding(
-            padding: EdgeInsets.all(5.0),
+            padding: const EdgeInsets.all(5.0),
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -50,7 +59,7 @@ class _DrawScreenState extends State<DrawScreen> {
                 setState(() {
                   _points = [];
                 });
-              }, child: Text("Clear")),
+              }, child: const Text("Clear")),
             ),
           )
         ],
@@ -61,13 +70,14 @@ class _DrawScreenState extends State<DrawScreen> {
 
 class DrawingPainter extends CustomPainter {
   final List<Offset?> points;
+  Color color;
 
-  DrawingPainter(this.points);
+  DrawingPainter(this.points,this.color);
 
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
-      ..color = Colors.red // Set the drawing color to red
+      ..color = color // Set the drawing color to red
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 5.0; // Adjust the stroke width as needed
 
