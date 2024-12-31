@@ -7,15 +7,10 @@ class DrawScreen extends StatefulWidget {
 
 class _DrawScreenState extends State<DrawScreen> {
   List<Offset?> _points = [];
-  late Color color;
 
   @override
   void initState() {
     super.initState();
-    setState(() {
-      color = Colors.red;
-    });
-
   }
 
   @override
@@ -41,7 +36,7 @@ class _DrawScreenState extends State<DrawScreen> {
                 },
                 child: CustomPaint(
                   size: Size.infinite,
-                  painter: DrawingPainter(_points,color),
+                  painter: DrawingPainter(_points),
                 ),
               ),
           ),
@@ -70,14 +65,13 @@ class _DrawScreenState extends State<DrawScreen> {
 
 class DrawingPainter extends CustomPainter {
   final List<Offset?> points;
-  Color color;
 
-  DrawingPainter(this.points,this.color);
+  DrawingPainter(this.points);
 
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
-      ..color = color // Set the drawing color to red
+      ..color = Colors.red // Set the drawing color to red
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 5.0; // Adjust the stroke width as needed
 
